@@ -71,13 +71,13 @@ You can then run `geralt build` to download the dependency and build the project
 
 You can install Geralt by running:
 
-MacOS:
+MacOS with [Homebrew](https://brew.sh/):
 
 ```bash
 brew install geralt
 ```
 
-Linux via sdkman:
+Linux via [sdkman](https://sdkman.io/):
 
 ```bash
 sdk install geralt
