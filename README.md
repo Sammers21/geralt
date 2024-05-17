@@ -62,7 +62,7 @@ In order to add dependencies to your project, you can add them to the `geralt.to
 
 ```toml
 [dependencies]
-org.apache.commons:commons-lang3 = "3.12.0"
+"org.apache.commons:commons-lang3" = "3.12.0"
 ```
 
 You can then run `geralt build` to download the dependency and build the project.
