@@ -1,2 +1,5 @@
 /target
 /temp
+# ignore jar files
+*.jar
+*.class

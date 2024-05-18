@@ -1,6 +1,6 @@
-package com.example;
+package com.sammers;
 
-public class Main {
+public class TestMain {
     public static void main(String[] args) {
         System.out.println("Hello, world!");
     }

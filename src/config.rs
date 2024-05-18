@@ -61,7 +61,7 @@ impl Config {
         let package = &cfg.package;
         let binding = "com/example/Main".to_string();
         let main = package.main.as_ref().unwrap_or(&binding);
-        return main.replace("/", ".");
+        return main.replace("/", ".").replace(".java", "");
     }
 
     pub fn target_path(&self) -> String {
