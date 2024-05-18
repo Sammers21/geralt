@@ -1,3 +1,7 @@
+use config::Config;
+
+pub mod config;
+
 pub fn init(root: &str) {
     // Create the dir for main class
     std::fs::create_dir_all(format!("{}/src/com/example", root)).unwrap();
@@ -27,52 +31,59 @@ version = \"0.0.1\"
     }
 }
 
-pub fn build(root: &str) {
+pub fn build(config: Config) {
     // Build .class files
-    // javac -cp ./src/ -d ./out/ ./src/com/example/Main.java 
+    // javac -cp ./src/ -d ./out/ ./src/com/example/Main.java
     let javac = std::process::Command::new("javac")
         .arg("-cp")
-        .arg(format!("{}/src/", root))
+        .arg(config.src_path())
         .arg("-d")
-        .arg(format!("{}/target/", root))
-        .arg(format!("{}/src/com/example/Main.java", root))
+        .arg(config.target_path())
+        .arg(config.main_path())
         .status();
     if javac.is_err() {
-        panic!("Failed to compile the Main.java file: {}", javac.unwrap_err());
+        panic!(
+            "Failed to compile the Main.java file: {}",
+            javac.unwrap_err()
+        );
     }
     // Build the fat jar
-    // jar cvf program.jar -C ./out . 
+    // jar cvf program.jar -C ./out .
     let jarcvf = std::process::Command::new("jar")
         .arg("cvf")
-        .arg(format!("{}/fat.jar", root))
+        .arg(config.jar_path())
         .arg("-C")
-        .arg(format!("{}/target", root))
+        .arg(config.target_path())
         .arg(".")
         .status();
     if jarcvf.is_err() {
         panic!("Failed to create the fat jar: {}", jarcvf.unwrap_err());
     }
     // Set the Main-Class attribute in the manifest file
-    // jar cfe program.jar com.example.Main -C ./out . 
+    // jar cfe program.jar com.example.Main -C ./out .
     let jarcfe = std::process::Command::new("jar")
         .arg("cfe")
-        .arg(format!("{}/fat.jar", root))
-        .arg("com.example.Main")
+        .arg(config.jar_path())
+        .arg(config.main_class_name())
         .arg("-C")
-        .arg(format!("{}/target", root))
+        .arg(config.target_path())
         .arg(".")
         .status();
     if jarcfe.is_err() {
-        panic!("Failed to set the Main-Class attribute: {}", jarcfe.unwrap_err());
+        panic!(
+            "Failed to set the Main-Class attribute: {}",
+            jarcfe.unwrap_err()
+        );
     }
 }
 
-pub fn run(root: &str) {
-    build(root);
+pub fn run(config: Config) {
+    let jar_path = config.jar_path().clone();
+    build(config);
     // Run the fat jar
     let output = std::process::Command::new("java")
         .arg("-jar")
-        .arg(format!("{}/fat.jar", root))
+        .arg(jar_path)
         .status();
     if output.is_err() {
         panic!("Failed to execute the fat jar: {}", output.unwrap_err());

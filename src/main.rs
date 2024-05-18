@@ -1,3 +1,5 @@
+use geralt::config;
+
 pub fn main() {
     match clap::Command::new("geralt")
         .bin_name("geralt")
@@ -9,16 +11,13 @@ pub fn main() {
         .subcommand()
     {
         Some(("init", _)) => {
-            println!("Created binary (application) package");
             geralt::init(".");
         }
         Some(("build", _)) => {
-            println!("Building the fat jar...");
-            geralt::build(".");
+            geralt::build(config::read_toml("."));
         }
         Some(("run", _)) => {
-            println!("Running the application...");
-            geralt::run(".");
+            geralt::run(config::read_toml("."));
         }
         _ => println!("No subcommand provided"),
     };
