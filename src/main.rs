@@ -13,7 +13,10 @@ pub fn main() {
             println!("Created binary (application) package");
             geralt::init(".");
         }
-        Some(("build", _)) => println!("Building the fat jar..."),
+        Some(("build", _)) => {
+            println!("Building the fat jar...");
+            geralt::build(".");
+        }
         Some(("run", _)) => println!("Running the application..."),
         _ => println!("No subcommand provided"),
     };
