@@ -18,7 +18,7 @@ public class Main {
         format!("{}/geralt.toml", dir),
         "[package]
 name = \"hello-world\"
-version = \"0.1.0\"
+version = \"0.0.1\"
 
 [dependencies]",
     );
