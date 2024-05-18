@@ -1,4 +1,3 @@
-
 pub fn main() {
     match clap::Command::new("geralt")
         .bin_name("geralt")
@@ -17,7 +16,10 @@ pub fn main() {
             println!("Building the fat jar...");
             geralt::build(".");
         }
-        Some(("run", _)) => println!("Running the application..."),
+        Some(("run", _)) => {
+            println!("Running the application...");
+            geralt::run(".");
+        }
         _ => println!("No subcommand provided"),
     };
 }

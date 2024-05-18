@@ -66,3 +66,15 @@ pub fn build(root: &str) {
         panic!("Failed to set the Main-Class attribute: {}", jarcfe.unwrap_err());
     }
 }
+
+pub fn run(root: &str) {
+    build(root);
+    // Run the fat jar
+    let output = std::process::Command::new("java")
+        .arg("-jar")
+        .arg(format!("{}/fat.jar", root))
+        .status();
+    if output.is_err() {
+        panic!("Failed to execute the fat jar: {}", output.unwrap_err());
+    }
+}
