@@ -1,4 +1,5 @@
-fn main() {
+
+pub fn main() {
     match clap::Command::new("geralt")
         .bin_name("geralt")
         .subcommand_required(true)
@@ -8,7 +9,10 @@ fn main() {
         .get_matches()
         .subcommand()
     {
-        Some(("init", _)) => println!("Created binary (application) package"),
+        Some(("init", _)) => {
+            println!("Created binary (application) package");
+            geralt::init(".");
+        }
         Some(("build", _)) => println!("Building the fat jar..."),
         Some(("run", _)) => println!("Running the application..."),
         _ => println!("No subcommand provided"),
