@@ -14,6 +14,7 @@ fn basic() {
         .arg(format!("{}/basic.jar", dir))
         .output()
         .expect("Failed to execute command");
-    assert_eq!(String::from_utf8_lossy(&output.stdout), "Hello, world!\n");
+    let output_str = String::from_utf8_lossy(&output.stdout).replace("\r\n", "\n");
+    assert_eq!(output_str, "Hello, world!\n");
 }
 
